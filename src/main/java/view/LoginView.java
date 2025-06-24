@@ -13,8 +13,8 @@ public class LoginView {
     private Button bRegister = new Button("Регистрация");
 
     public void start(Stage stage) {
-        VBox root = new VBox(10, new Label("Логин:"), login, new Label("Пароль:"), password);
         HBox hbox = new HBox(10, bLogin, bRegister);
+        VBox root = new VBox(10, new Label("Логин:"), login, new Label("Пароль:"), password, hbox);
         root.setPadding(new javafx.geometry.Insets(20));
         stage.setTitle("Авторизация");
         stage.setScene(new Scene(root, 400, 400));
