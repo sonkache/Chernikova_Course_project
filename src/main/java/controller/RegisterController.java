@@ -21,7 +21,7 @@ public class RegisterController {
         view.getSubmitButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                onSubmit();
+                onSubmit();  // Вызов метода обработки регистрации
             }
         });
     }
@@ -35,17 +35,30 @@ public class RegisterController {
         String login = view.getLoginField().getText().trim();
         String password = view.getPassField().getText().trim();
 
+        // Проверка обязательных полей
+        if (name.isEmpty() || login.isEmpty() || password.isEmpty()) {
+            view.showMessage("Имя, логин и пароль — обязательны");
+            return;
+        }
+
         try (Connection conn = Database.getConnection()) {
-            String sqlClient = "INSERT INTO clients " + "(name, property_type, address, phone_number, contact_person) " + "VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement ps1 = conn.prepareStatement(sqlClient, Statement.RETURN_GENERATED_KEYS);
+            String sqlClient = "INSERT INTO clients "
+                    + "(name, property_type, address, phone_number, contact_person) "
+                    + "VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps1 = conn.prepareStatement(
+                    sqlClient, Statement.RETURN_GENERATED_KEYS);
             ps1.setString(1, name);
             ps1.setString(2, prop);
             ps1.setString(3, addr);
             ps1.setString(4, phone);
             ps1.setString(5, contact);
             ps1.executeUpdate();
+
+
             ResultSet keys = ps1.getGeneratedKeys();
+            if (!keys.next()) throw new SQLException("Нет ID нового клиента");
             int newClientId = keys.getInt(1);
+
 
             String sqlUser = "INSERT INTO users (client_id, login, password, role) VALUES (?, ?, ?, 'client')";
             PreparedStatement ps2 = conn.prepareStatement(sqlUser, Statement.RETURN_GENERATED_KEYS);
@@ -53,13 +66,17 @@ public class RegisterController {
             ps2.setString(2, login);
             ps2.setString(3, password);
             ps2.executeUpdate();
+
             ResultSet keys2 = ps2.getGeneratedKeys();
             keys2.next();
             int newUserId = keys2.getInt(1);
+
             Client client = new Client(newClientId, name, prop, addr, phone, contact);
             clientsModel.add(client);
+
             User user = new User(newUserId, newClientId, login, password, "client");
             usersModel.add(user);
+
             Stage stage = (Stage) view.getSubmitButton().getScene().getWindow();
             stage.close();
 
