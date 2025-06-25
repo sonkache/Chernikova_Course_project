@@ -16,35 +16,47 @@ public class ClientDataView {
     public ClientDataView() {
         root.setPadding(new javafx.geometry.Insets(20));
 
-        HBox name = new HBox(10, new Label("Имя:"), this.name);
-        HBox property = new HBox(10, new Label("Тип собственности:"), this.property);
-        HBox address = new HBox(10, new Label("Адрес:"), this.address);
-        HBox phone = new HBox(10, new Label("Телефон:"), this.phone);
-        HBox contact = new HBox(10, new Label("Контактное лицо:"), this.contact);
-        root.getChildren().addAll(name, property, address, phone, contact);
+        HBox nameBox = new HBox(10, new Label("Имя:"), this.name);
+        nameBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+
+        HBox propertyBox = new HBox(10, new Label("Тип собственности:"), this.property);
+        propertyBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+
+        HBox addressBox = new HBox(10, new Label("Адрес:"), this.address);
+        addressBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+
+        HBox phoneBox = new HBox(10, new Label("Телефон:"), this.phone);
+        phoneBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+
+        HBox contactBox = new HBox(10, new Label("Контактное лицо:"), this.contact);
+        contactBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+
+        root.getChildren().addAll(nameBox, propertyBox, addressBox, phoneBox, contactBox);
+
+        root.setStyle("-fx-background-color: #e1f5fe; -fx-font-size: 16px; -fx-font-weight: bold;");
     }
 
-    public Node getData(){
+    public Node getData() {
         return root;
     }
 
-    public void setName(String s){
+    public void setName(String s) {
         name.setText(s);
     }
 
-    public void setProperty(String s){
+    public void setProperty(String s) {
         property.setText(s);
     }
 
-    public void setAddress(String s){
+    public void setAddress(String s) {
         address.setText(s);
     }
 
-    public void setPhone(String s){
+    public void setPhone(String s) {
         phone.setText(s);
     }
 
-    public void setContact(String s){
+    public void setContact(String s) {
         contact.setText(s);
     }
 }

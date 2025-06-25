@@ -2,12 +2,10 @@ package controller;
 
 import model.Clients;
 import view.ClientDataView;
-
 public class ClientDataController {
     private final ClientDataView view;
     private final Clients model;
     private final int clientId;
-
     public ClientDataController(ClientDataView view, Clients model, int clientId) {
         this.view = view;
         this.model = model;

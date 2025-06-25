@@ -6,7 +6,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ClientCreditsView {
-    private TableView <model.CreditContract> credits = new TableView<>();
+    private TableView<model.CreditContract> credits = new TableView<>();
 
     public ClientCreditsView() {
         TableColumn<model.CreditContract, Integer> id = new TableColumn<>("Номер кредитного договора");

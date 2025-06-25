@@ -25,9 +25,20 @@ public class ClientMainView {
         types.setContent(typesView.getType());
 
         tabPane.getTabs().addAll(data, credits, pays, types);
+        tabPane.setStyle("-fx-background-color: #e1f5fe;");
+
+        data.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
+        credits.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
+        pays.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
+        types.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
+
         BorderPane panel = new BorderPane(tabPane);
+        panel.setStyle("-fx-background-color: #b3e5fc; -fx-padding: 18px;");
+
+        Scene scene = new Scene(panel, 600, 600);
+
         stage.setTitle("Личный кабинет");
-        stage.setScene(new Scene(panel, 600, 600));
+        stage.setScene(scene);
         stage.show();
     }
 
