@@ -49,4 +49,9 @@ public class CreditType {
     public void setReturnPeriod(int returnPeriod){
         this.returnPeriod = returnPeriod;
     }
+
+    @Override
+    public String toString() {
+        return name;  // можно: return id + " — " + name;
+    }
 }

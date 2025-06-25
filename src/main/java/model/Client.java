@@ -59,4 +59,10 @@ package model;
     public void setContactPerson(String contactPerson){
         this.contactPerson = contactPerson;
     }
-}
+
+     @Override
+     public String toString() {
+         return name;
+     }
+
+ }
