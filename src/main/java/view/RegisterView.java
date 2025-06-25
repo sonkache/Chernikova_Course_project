@@ -21,32 +21,49 @@ public class RegisterView {
         grid.setHgap(10);
         grid.setPadding(new javafx.geometry.Insets(20));
 
-        grid.add(new Label("Имя/Название:"),0, 0);
-        grid.add(nameField,1, 0);
-        grid.add(new Label("Тип собственности:"),0, 1);
-        grid.add(propertyField,1, 1);
-        grid.add(new Label("Адрес:"),0, 2);
-        grid.add(addressField,1, 2);
-        grid.add(new Label("Телефон:"),0, 3);
-        grid.add(phoneField,1, 3);
-        grid.add(new Label("Контактное лицо:"),0, 4);
-        grid.add(contactField,1, 4);
-        grid.add(new Label("Логин:"),0, 5);
-        grid.add(loginField,1, 5);
-        grid.add(new Label("Пароль:"),0, 6);
-        grid.add(passField,1, 6);
-        grid.add(bSubmit,1, 7);
+        grid.add(new Label("Имя/Название:"), 0, 0);
+        grid.add(nameField, 1, 0);
+        grid.add(new Label("Тип собственности:"), 0, 1);
+        grid.add(propertyField, 1, 1);
+        grid.add(new Label("Адрес:"), 0, 2);
+        grid.add(addressField, 1, 2);
+        grid.add(new Label("Телефон:"), 0, 3);
+        grid.add(phoneField, 1, 3);
+        grid.add(new Label("Контактное лицо:"), 0, 4);
+        grid.add(contactField, 1, 4);
+        grid.add(new Label("Логин:"), 0, 5);
+        grid.add(loginField, 1, 5);
+        grid.add(new Label("Пароль:"), 0, 6);
+        grid.add(passField, 1, 6);
+        grid.add(bSubmit, 1, 7);
+        grid.setStyle("-fx-background-color: linear-gradient(to bottom, #ffffff, #e1f5fe);");
+        Label[] labels = {(Label) grid.getChildren().get(0), (Label) grid.getChildren().get(2), (Label) grid.getChildren().get(4), (Label) grid.getChildren().get(6), (Label) grid.getChildren().get(8), (Label) grid.getChildren().get(10), (Label) grid.getChildren().get(12)
+        };
+
+        for (Label label : labels) {
+            label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-font-style: italic; -fx-text-fill: black;");
+        }
+
+        bSubmit.setStyle("-fx-background-color: white; -fx-text-fill: #0277bd; -fx-border-color: #0277bd; -fx-font-size: 14px;");
+
+        nameField.setStyle("-fx-font-size: 16px;");
+        propertyField.setStyle("-fx-font-size: 16px;");
+        addressField.setStyle("-fx-font-size: 16px;");
+        phoneField.setStyle("-fx-font-size: 16px;");
+        contactField.setStyle("-fx-font-size: 16px;");
+        loginField.setStyle("-fx-font-size: 16px;");
+        passField.setStyle("-fx-font-size: 16px;");
 
         stage.setTitle("Регистрация");
         stage.setScene(new Scene(grid, 400, 400));
         stage.show();
     }
 
-    public TextField getNameField(){
+    public TextField getNameField() {
         return nameField;
     }
 
-    public TextField getPropertyField(){
+    public TextField getPropertyField() {
         return propertyField;
     }
 
@@ -54,23 +71,23 @@ public class RegisterView {
         return addressField;
     }
 
-    public TextField getPhoneField(){
+    public TextField getPhoneField() {
         return phoneField;
     }
 
-    public TextField getContactField(){
+    public TextField getContactField() {
         return contactField;
     }
 
-    public TextField getLoginField(){
+    public TextField getLoginField() {
         return loginField;
     }
 
-    public PasswordField getPassField(){
+    public PasswordField getPassField() {
         return passField;
     }
 
-    public Button getSubmitButton(){
+    public Button getSubmitButton() {
         return bSubmit;
     }
 
