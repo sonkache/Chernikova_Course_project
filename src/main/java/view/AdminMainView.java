@@ -26,15 +26,20 @@ public class AdminMainView {
 
         tabPane.getTabs().addAll(clients, types, issue, history);
         tabPane.setStyle("-fx-background-color: #e1f5fe;");
-        clients.setStyle("-fx-background-color: #0277bd; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;");
-        types.setStyle("-fx-background-color: #0277bd; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;");
-        issue.setStyle("-fx-background-color: #0277bd; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;");
-        history.setStyle("-fx-background-color: #0277bd; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;");
+        String tabStyle = "-fx-background-color: #0277bd; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;";
+
+        clients.setStyle(tabStyle);
+        types.setStyle(tabStyle);
+        issue.setStyle(tabStyle);
+        history.setStyle(tabStyle);
+        clients.setStyle(tabStyle + "-fx-transition: none;");
+        types.setStyle(tabStyle + "-fx-transition: none;");
+        issue.setStyle(tabStyle + "-fx-transition: none;");
+        history.setStyle(tabStyle + "-fx-transition: none;");
 
         BorderPane panel = new BorderPane(tabPane);
         panel.setStyle("-fx-background-color: #b3e5fc; -fx-padding: 10px;");
         Scene scene = new Scene(panel, 600, 600);
-
         stage.setTitle("Личный кабинет администратора");
         stage.setScene(scene);
         stage.show();

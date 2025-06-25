@@ -26,6 +26,16 @@ public class ClientMainView {
 
         tabPane.getTabs().addAll(data, credits, pays, types);
         tabPane.setStyle("-fx-background-color: #e1f5fe;");
+        String tabStyle = "-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;";
+
+        data.setStyle(tabStyle);
+        credits.setStyle(tabStyle);
+        pays.setStyle(tabStyle);
+        types.setStyle(tabStyle);
+        data.setStyle(tabStyle + "-fx-transition: none;");
+        credits.setStyle(tabStyle + "-fx-transition: none;");
+        pays.setStyle(tabStyle + "-fx-transition: none;");
+        types.setStyle(tabStyle + "-fx-transition: none;");
 
         data.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
         credits.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
@@ -36,7 +46,6 @@ public class ClientMainView {
         panel.setStyle("-fx-background-color: #b3e5fc; -fx-padding: 18px;");
 
         Scene scene = new Scene(panel, 600, 600);
-
         stage.setTitle("Личный кабинет");
         stage.setScene(scene);
         stage.show();
