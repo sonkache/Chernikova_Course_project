@@ -5,10 +5,11 @@ import model.CreditContracts;
 import model.Payment;
 import model.Payments;
 import view.ClientPaymentsView;
-import javafx.collections.FXCollections;
-import java.util.HashSet;
+import database.Database;
+import javafx.scene.control.Alert;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 public class ClientPaymentsController {
     private final ClientPaymentsView view;
@@ -21,7 +22,7 @@ public class ClientPaymentsController {
         this.paymentsModel = paymentsModel;
         this.contractsModel = contractsModel;
         this.clientId = clientId;
-        update();
+
         paymentsModel.addListener(new Runnable() {
             @Override
             public void run() {
@@ -34,23 +35,58 @@ public class ClientPaymentsController {
                 update();
             }
         });
-    }
-    private void update() {
-        Set<Integer> myContracts = new HashSet<>();
-        List<CreditContract> contracts = contractsModel.getAll();
-        for (int i = 0; i < contracts.size(); i++) {
-            if (contracts.get(i).getClientId() == clientId) {
-                myContracts.add(contracts.get(i).getId());
-            }
-        }
+        view.getPayButton().setOnAction(e -> onPay());
+        update();
 
-        List<Payment> list = paymentsModel.getAll();
-        List<Payment> filteredPayments = new java.util.ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            if (myContracts.contains(list.get(i).getCreditContractId())) {
-                filteredPayments.add(list.get(i));
+    }
+
+    private void update() {
+        List<CreditContract> clientCredits = new java.util.ArrayList<>();
+        for (CreditContract contract : contractsModel.getAll()) {
+            if (contract.getClientId() == clientId) {
+                clientCredits.add(contract);
             }
         }
-        view.getPayments().setItems(FXCollections.observableArrayList(filteredPayments));
+        view.getContractCombo().getItems().setAll(clientCredits);
+        java.util.Set<Integer> contractIds = new java.util.HashSet<>();
+        for (CreditContract cc : clientCredits) {
+            contractIds.add(cc.getId());
+        }
+        java.util.List<Payment> filteredPayments = new java.util.ArrayList<>();
+        for (Payment payment : paymentsModel.getAll()) {
+            if (contractIds.contains(payment.getCreditContractId())) {
+                filteredPayments.add(payment);
+            }
+        }
+        view.setPayments(filteredPayments);
+    }
+
+
+    private void onPay() {
+        CreditContract contract = view.getContractCombo().getValue();
+        if (contract == null) {
+            view.showMessage("Выберите договор");
+            return;
+        }
+        double amount;
+        try {
+            amount = Double.parseDouble(view.getAmountField().getText().trim());
+        } catch (NumberFormatException ex) {
+            view.showMessage("Неверная сумма");
+            return;
+        }
+        LocalDate date = view.getDatePicker().getValue();
+        if (date == null) {
+            view.showMessage("Выберите дату");
+            return;
+        }
+        try {
+            Database.insertPayment(contract.getId(), amount, date);
+            paymentsModel.add(new Payment(contract.getId(), amount, 0.0, date));
+            view.showMessage("Платёж успешно проведён");
+            view.getAmountField().clear();
+        } catch (SQLException ex) {
+            new Alert(Alert.AlertType.ERROR, "Ошибка при платеже: " + ex.getMessage()).showAndWait();
+        }
     }
 }

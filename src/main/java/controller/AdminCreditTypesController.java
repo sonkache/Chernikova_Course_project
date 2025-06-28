@@ -45,8 +45,7 @@ public class AdminCreditTypesController {
             double percent = Double.parseDouble(percText);
             int period = Integer.parseInt(periodText);
             try (Connection conn = Database.getConnection()) {
-                String sql = "INSERT INTO credit_types (name, conditions, percent, return_period) "
-                        + "VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO credit_types (name, conditions, percent, return_period) " + "VALUES (?, ?, ?, ?)";
                 PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, name);
                 ps.setString(2, cond);
