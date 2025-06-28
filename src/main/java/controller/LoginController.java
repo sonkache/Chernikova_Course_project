@@ -1,18 +1,21 @@
 package controller;
 
+import database.Database;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.stage.Stage;
 import model.Clients;
 import model.CreditContracts;
 import model.CreditTypes;
 import model.Payments;
 import model.User;
 import model.Users;
+import view.AdminMainView;
 import view.ClientMainView;
 import view.LoginView;
 import view.RegisterView;
-import view.AdminMainView;
-import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
+import java.sql.SQLException;
 
 public class LoginController {
     private final LoginView view;
@@ -33,48 +36,54 @@ public class LoginController {
         view.getLoginButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                onLogin();
+                try {
+                    onLogin();
+                } catch (SQLException e) {
+                    ;
+                }
             }
         });
-
-        view.getRegisterButton().setOnAction(new EventHandler<ActionEvent>() {
+        view.getRegisterButton().setOnAction(new javafx.event.EventHandler<javafx.event.ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(javafx.event.ActionEvent event) {
                 RegisterView registerView = new RegisterView();
                 Stage regStage = new Stage();
                 registerView.start(regStage);
                 new RegisterController(registerView, clientsModel, usersModel);
             }
         });
+
     }
-    private void onLogin() {
+
+    private void onLogin() throws SQLException {
         String login = view.getLogin().getText().trim();
         String pass = view.getPassField().getText().trim();
-        User user = null;
-        for (User u : usersModel.getAll()) {
-            if (u.getLogin().equals(login) && u.getPassword().equals(pass)) {
-                user = u;
-                break;
-            }
-        }
-        if (user == null) {
+
+        User user = Database.loadUser(login);
+        if (user == null || !user.getPassword().equals(pass)) {
             view.error("Неверный логин или пароль");
             return;
         }
 
-        Stage stage = (Stage) view.getLoginButton().getScene().getWindow();
-        stage.close();
-
+        clientsModel.setAll(Database.loadClients(user));
+        usersModel.setAll(Database.loadUsers(user));
+        creditTypesModel.setAll(Database.loadCreditTypes());
+        int filterClientId = "client".equals(user.getRole()) ? user.getClientId() : 0;
+        creditContractsModel.setAll(Database.loadCreditContracts(user, filterClientId));
+        paymentsModel.setAll(Database.loadPayments(user, filterClientId));
+        Stage loginStage = (Stage) view.getLoginButton().getScene().getWindow();
+        loginStage.close();
         if ("client".equals(user.getRole())) {
             ClientMainView clientView = new ClientMainView();
             Stage clientStage = new Stage();
             clientView.start(clientStage);
-            new ClientMainController(clientStage, clientView, clientsModel, creditContractsModel, paymentsModel, creditTypesModel, user.getClientId());
-        } else {
+            new ClientMainController(clientStage, clientView, clientsModel, creditTypesModel, creditContractsModel, paymentsModel, user.getClientId(), user
+            );
+        } else if ("admin".equals(user.getRole())) {
             AdminMainView adminView = new AdminMainView();
             Stage adminStage = new Stage();
             adminView.start(adminStage);
-            new AdminMainController(adminStage, adminView, clientsModel, creditTypesModel, creditContractsModel, paymentsModel);
+            new AdminMainController(adminStage, adminView, clientsModel, creditTypesModel, creditContractsModel, paymentsModel, user);
         }
     }
 }
