@@ -1,62 +1,110 @@
 package view;
 
-import javafx.scene.Node;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 public class ClientDataView {
-    private VBox root = new VBox(10);
-    private Label name = new Label();
-    private Label property = new Label();
-    private Label address = new Label();
-    private Label phone = new Label();
-    private Label contact = new Label();
+    private final GridPane root;
+    private final TextField nameField;
+    private final TextField propertyField;
+    private final TextField addressField;
+    private final TextField phoneField;
+    private final TextField contactField;
+    private final Button saveButton;
 
     public ClientDataView() {
-        root.setPadding(new javafx.geometry.Insets(20));
+        root = new GridPane();
+        root.setPadding(new Insets(10));
+        root.setHgap(10);
+        root.setVgap(10);
 
-        HBox nameBox = new HBox(10, new Label("Имя:"), this.name);
-        nameBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+        ColumnConstraints labelCol = new ColumnConstraints();
+        labelCol.setHgrow(Priority.NEVER);
+        ColumnConstraints inputCol = new ColumnConstraints();
+        inputCol.setHgrow(Priority.ALWAYS);
+        root.getColumnConstraints().addAll(labelCol, inputCol);
 
-        HBox propertyBox = new HBox(10, new Label("Тип собственности:"), this.property);
-        propertyBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+        int row = 0;
+        root.add(new Label("Имя:"), 0, row);
+        nameField = new TextField();
+        root.add(nameField, 1, row++);
 
-        HBox addressBox = new HBox(10, new Label("Адрес:"), this.address);
-        addressBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+        root.add(new Label("Тип имущества:"), 0, row);
+        propertyField = new TextField();
+        root.add(propertyField, 1, row++);
 
-        HBox phoneBox = new HBox(10, new Label("Телефон:"), this.phone);
-        phoneBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+        root.add(new Label("Адрес:"), 0, row);
+        addressField = new TextField();
+        root.add(addressField, 1, row++);
 
-        HBox contactBox = new HBox(10, new Label("Контактное лицо:"), this.contact);
-        contactBox.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: black;");
+        root.add(new Label("Телефон:"), 0, row);
+        phoneField = new TextField();
+        root.add(phoneField, 1, row++);
 
-        root.getChildren().addAll(nameBox, propertyBox, addressBox, phoneBox, contactBox);
+        root.add(new Label("Контактное лицо:"), 0, row);
+        contactField = new TextField();
+        root.add(contactField, 1, row++);
 
-        root.setStyle("-fx-background-color: #e1f5fe; -fx-font-size: 16px; -fx-font-weight: bold;");
+        saveButton = new Button("Сохранить");
+        root.add(saveButton, 1, row);
     }
 
-    public Node getData() {
+    public Parent getData() {
         return root;
     }
 
-    public void setName(String s) {
-        name.setText(s);
+    public Button getSaveButton() {
+        return saveButton;
     }
 
-    public void setProperty(String s) {
-        property.setText(s);
+    public String getName() {
+        return nameField.getText();
     }
 
-    public void setAddress(String s) {
-        address.setText(s);
+    public String getProperty() {
+        return propertyField.getText();
     }
 
-    public void setPhone(String s) {
-        phone.setText(s);
+    public String getAddress() {
+        return addressField.getText();
     }
 
-    public void setContact(String s) {
-        contact.setText(s);
+    public String getPhone() {
+        return phoneField.getText();
+    }
+
+    public String getContact() {
+        return contactField.getText();
+    }
+
+    public void setName(String value) {
+        nameField.setText(value);
+    }
+
+    public void setProperty(String value) {
+        propertyField.setText(value);
+    }
+
+    public void setAddress(String value) {
+        addressField.setText(value);
+    }
+
+    public void setPhone(String value) {
+        phoneField.setText(value);
+    }
+
+    public void setContact(String value) {
+        contactField.setText(value);
+    }
+
+    public void showMessage(String msg) {
+        new Alert(Alert.AlertType.INFORMATION, msg).showAndWait();
     }
 }

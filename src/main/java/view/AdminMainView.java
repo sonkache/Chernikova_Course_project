@@ -1,63 +1,53 @@
 package view;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public class AdminMainView {
-    private TabPane tabPane = new TabPane();
-    private Tab clients = new Tab("Список клиентов");
-    private Tab types = new Tab("Виды кредитов");
-    private Tab issue = new Tab("Выдача кредита");
-    private Tab history = new Tab("История платежей клиентов");
+    private final TabPane tabPane = new TabPane();
+    private final Tab clientsTab = new Tab("Список клиентов");
+    private final Tab typesTab = new Tab("Виды кредитов");
+    private final Tab issueTab = new Tab("Выдача кредита");
+    private final Tab historyTab = new Tab("История платежей");
 
-    private AdminClientsView clientsView = new AdminClientsView();
-    private AdminCreditTypesView typesView = new AdminCreditTypesView();
-    private AdminIssueCreditView issueView = new AdminIssueCreditView();
-    private AdminPaymentHistoryView historyView = new AdminPaymentHistoryView();
+    private final AdminClientsView clientsView = new AdminClientsView();
+    private final AdminCreditTypesView typesView = new AdminCreditTypesView();
+    private final AdminIssueCreditView issueView = new AdminIssueCreditView();
+    private final AdminPaymentHistoryView historyView = new AdminPaymentHistoryView();
 
     public void start(Stage stage) {
-        clients.setContent(clientsView.getClient());
-        types.setContent(typesView.getCredit());
-        issue.setContent(issueView.getCredit());
-        history.setContent(historyView.getHistory());
+        clientsTab.setContent(clientsView.getClient());
+        typesTab.setContent(typesView.getCredit());
+        issueTab.setContent(issueView.getCredit());
+        historyTab.setContent(historyView.getHistory());
+        String tabHeaderStyle = "-fx-background-color: white; -fx-text-fill: #0277bd; -fx-font-size: 16px; -fx-font-style: italic; -fx-border-color: #0277bd; -fx-border-style: dashed;";
 
-        tabPane.getTabs().addAll(clients, types, issue, history);
+        for (Tab t : new Tab[]{clientsTab, typesTab, issueTab, historyTab}) {
+            t.setStyle(tabHeaderStyle);
+            Region content = (Region) t.getContent();
+            content.setPadding(new Insets(20));
+            content.setStyle("-fx-background-color: linear-gradient(to bottom, #f0f8ff, #ffffff);");
+        }
+
+        tabPane.getTabs().addAll(clientsTab, typesTab, issueTab, historyTab);
         tabPane.setStyle("-fx-background-color: #e1f5fe;");
-        String tabStyle = "-fx-background-color: #0277bd; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;";
 
-        clients.setStyle(tabStyle);
-        types.setStyle(tabStyle);
-        issue.setStyle(tabStyle);
-        history.setStyle(tabStyle);
-        clients.setStyle(tabStyle + "-fx-transition: none;");
-        types.setStyle(tabStyle + "-fx-transition: none;");
-        issue.setStyle(tabStyle + "-fx-transition: none;");
-        history.setStyle(tabStyle + "-fx-transition: none;");
-
-        BorderPane panel = new BorderPane(tabPane);
-        panel.setStyle("-fx-background-color: #b3e5fc; -fx-padding: 10px;");
-        Scene scene = new Scene(panel, 600, 600);
+        BorderPane root = new BorderPane(tabPane);
+        root.setPadding(new Insets(10));
+        root.setStyle("-fx-background-color: linear-gradient(to bottom, #f0f8ff, #ffffff);");
+        Scene scene = new Scene(root, 700, 600);
         stage.setTitle("Личный кабинет администратора");
         stage.setScene(scene);
         stage.show();
     }
 
-    public AdminClientsView getClientsView() {
-        return clientsView;
-    }
-
-    public AdminCreditTypesView getCreditTypesView() {
-        return typesView;
-    }
-
-    public AdminIssueCreditView getIssueCreditView() {
-        return issueView;
-    }
-
-    public AdminPaymentHistoryView getHistoryView() {
-        return historyView;
-    }
+    public AdminClientsView getClientsView(){ return clientsView; }
+    public AdminCreditTypesView getCreditTypesView(){ return typesView; }
+    public AdminIssueCreditView getIssueCreditView(){ return issueView; }
+    public AdminPaymentHistoryView getHistoryView(){ return historyView; }
 }

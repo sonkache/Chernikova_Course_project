@@ -1,69 +1,59 @@
 package view;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 public class ClientMainView {
-    private TabPane tabPane = new TabPane();
-    private Tab data = new Tab("Ваши данные");
-    private Tab credits = new Tab("Ваши кредиты");
-    private Tab pays = new Tab("Ваши платежи");
-    private Tab types = new Tab("Виды кредитов");
+    private final TabPane tabPane = new TabPane();
+    private final Tab dataTab = new Tab("Ваши данные");
+    private final Tab issueTab = new Tab("Оформить кредит");
+    private final Tab creditsTab = new Tab("Ваши кредиты");
+    private final Tab paysTab = new Tab("Ваши платежи");
+    private final Tab typesTab = new Tab("Виды кредитов");
 
-    private ClientDataView dataView = new ClientDataView();
-    private ClientCreditsView creditsView = new ClientCreditsView();
-    private ClientPaymentsView paymentsView = new ClientPaymentsView();
-    private ClientCreditTypesView typesView = new ClientCreditTypesView();
+    private final ClientDataView dataView = new ClientDataView();
+    private final AdminIssueCreditView issueView = new AdminIssueCreditView();
+    private final ClientCreditsView creditsView = new ClientCreditsView();
+    private final ClientPaymentsView paymentsView = new ClientPaymentsView();
+    private final ClientCreditTypesView typesView = new ClientCreditTypesView();
 
     public void start(Stage stage) {
-        data.setContent(dataView.getData());
-        credits.setContent(creditsView.getCredit());
-        pays.setContent(paymentsView.getPayment());
-        types.setContent(typesView.getType());
+        dataTab.setContent(dataView.getData());
+        issueTab.setContent(issueView.getCredit());
+        creditsTab.setContent(creditsView.getCredit());
+        paysTab.setContent(paymentsView.getPayment());
+        typesTab.setContent(typesView.getType());
 
-        tabPane.getTabs().addAll(data, credits, pays, types);
+        String tabHeaderStyle = " -fx-background-color: white; -fx-text-fill: #0277bd; -fx-font-size: 16px; -fx-font-style: italic; -fx-border-color: #0277bd; -fx-border-style: dashed;";
+
+        for (Tab t : new Tab[]{dataTab, issueTab, creditsTab, paysTab, typesTab}) {
+            t.setStyle(tabHeaderStyle);
+            Region content = (Region) t.getContent();
+            content.setPadding(new Insets(20));
+            content.setStyle("-fx-background-color: linear-gradient(to bottom, #f0f8ff, #ffffff);");
+        }
+
+        tabPane.getTabs().addAll(dataTab, issueTab, creditsTab, paysTab, typesTab);
         tabPane.setStyle("-fx-background-color: #e1f5fe;");
-        String tabStyle = "-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;";
 
-        data.setStyle(tabStyle);
-        credits.setStyle(tabStyle);
-        pays.setStyle(tabStyle);
-        types.setStyle(tabStyle);
-        data.setStyle(tabStyle + "-fx-transition: none;");
-        credits.setStyle(tabStyle + "-fx-transition: none;");
-        pays.setStyle(tabStyle + "-fx-transition: none;");
-        types.setStyle(tabStyle + "-fx-transition: none;");
+        BorderPane root = new BorderPane(tabPane);
+        root.setPadding(new Insets(18));
+        root.setStyle("-fx-background-color: linear-gradient(to bottom, #f0f8ff, #ffffff);");
 
-        data.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
-        credits.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
-        pays.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
-        types.setStyle("-fx-background-color: #0277bd; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 16px;");
-
-        BorderPane panel = new BorderPane(tabPane);
-        panel.setStyle("-fx-background-color: #b3e5fc; -fx-padding: 18px;");
-
-        Scene scene = new Scene(panel, 600, 600);
-        stage.setTitle("Личный кабинет");
+        Scene scene = new Scene(root, 800, 600);
+        stage.setTitle("Личный кабинет клиента");
         stage.setScene(scene);
         stage.show();
     }
 
-    public ClientDataView getDataView(){
-        return dataView;
-    }
-
-    public ClientCreditsView getCreditsView(){
-        return creditsView;
-    }
-
-    public ClientPaymentsView getPaymentsView(){
-        return paymentsView;
-    }
-
-    public ClientCreditTypesView getTypesView(){
-        return typesView;
-    }
+    public ClientDataView getDataView(){ return dataView; }
+    public AdminIssueCreditView getIssueCreditView(){ return issueView; }
+    public ClientCreditsView getCreditsView(){ return creditsView; }
+    public ClientPaymentsView getPaymentsView(){ return paymentsView; }
+    public ClientCreditTypesView getTypesView(){ return typesView; }
 }
