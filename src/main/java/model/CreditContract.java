@@ -59,4 +59,10 @@ public class CreditContract {
     public void setReturnDate(LocalDate returnDate){
         this.returnDate = returnDate;
     }
+
+    @Override
+    public String toString() {
+        return "" + id;
+    }
+
 }
